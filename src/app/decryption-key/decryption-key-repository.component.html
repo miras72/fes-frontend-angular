@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Repozytorium Kluczy Dekrypcji</h1>
+<mat-card>
+	<mat-card-content>
+	<div class="display-tab">			
+		<mat-table #table [dataSource]="dataSource">
+			<ng-container matColumnDef="deleteSymbol">
+    			<mat-header-cell *matHeaderCellDef ></mat-header-cell>
+      			<mat-cell *matCellDef="let row">
+					<span matTooltip="Usuń klucz">
+						<button mat-icon-button color="accent" type="button" (click)="deleteDecryptionKey(row.id)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</span>
+				</mat-cell>
+			</ng-container>
+		
+			<ng-container matColumnDef="decryptionKeyName">
+    			<mat-header-cell *matHeaderCellDef > Klucz Dekrypcji </mat-header-cell>
+      			<mat-cell *matCellDef="let row">
+      				<span matTooltip="Export/Import Klucza Dekrypcji">
+   						<button mat-icon-button color="primary" type="button" (click)="exportImportDecryptionKey(row.id, row.decryptionKeyName)">
+							<mat-icon>swap_vert</mat-icon>
+						</button>
+					</span>
+      				{{row.decryptionKeyName}}
+      			</mat-cell>
+			</ng-container>
+						
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+		</mat-table>
+	</div>
+	<span matTooltip="Dodaj Nowy Klucz">
+		<button mat-mini-fab color="primary" type="button" (click)="addDecryptionKey()">
+			<mat-icon>add</mat-icon>
+		</button>
+	</span>
+	</mat-card-content>
+</mat-card>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close type="button">ZAMKNIJ</button>
+</div>

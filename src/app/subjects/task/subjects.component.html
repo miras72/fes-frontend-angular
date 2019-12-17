@@ -1,0 +1,432 @@
+<mat-card class="next-card">
+	<mat-card-content>
+			<div *ngIf="isEdit; else mainForm">
+				<!-- <mat-card>
+					<mat-card-content> -->
+						<ng-container 
+   							*ngTemplateOutlet="mainForm">
+						</ng-container>
+				<!-- 	</mat-card-content>
+				</mat-card> -->
+			</div>
+	</mat-card-content>
+<!-- 	<mat-card-actions *ngIf="isEdit" align="start">
+    	<button mat-button [disabled] = "!isDisabled" (click)="editSubject()">EDYCJA</button>
+    	<button mat-button [disabled] = "isDisabled" (click)="cancelEditSubject()">ANULUJ</button>
+	</mat-card-actions>-->
+</mat-card>
+<div mat-dialog-actions *ngIf="isEdit">
+	<button mat-button mat-dialog-close>ZAMKNIJ</button>
+	<button mat-button [disabled] = "!isDisabled" (click)="editSubject()">EDYCJA</button>
+	<button mat-button [disabled] = "isDisabled" (click)="cancelEditSubject()">ANULUJ</button>
+</div>
+
+<ng-template #mainForm>	
+		<mat-horizontal-stepper linear>
+			 	  	<mat-step [stepControl]="firstSubjectForm">
+						<form [formGroup]="firstSubjectForm" class="form" novalidate>
+							<ng-template matStepLabel>Podmiot</ng-template>
+							<span>Konfiguracja Podmiotu:</span>
+							<p>
+							<div id="page-padding">
+								<mat-form-field class="form-full-width">
+									<input matInput placeholder="Nazwa Podmiotu"
+										formControlName="subjectName"
+										#subjectName maxlength="20"
+										required>
+									<mat-hint align="end">{{subjectName.value.length}} / 20</mat-hint>
+									<mat-error *ngIf="firstSubjectForm.get('subjectName').invalid">{{getSubjectNameErrorMessage()}}</mat-error>
+								</mat-form-field>
+								<mat-form-field class="form-full-width">
+									<input matInput placeholder="Adres Serwera"
+										formControlName="subjectAddress"
+										#subjectAddress maxlength="50"
+										required>
+									<mat-hint align="end">{{subjectAddress.value.length}} / 50</mat-hint>
+									<mat-error *ngIf="firstSubjectForm.get('subjectAddress').invalid">{{getSubjectAddressErrorMessage()}}</mat-error>
+								</mat-form-field>
+	 			 				<table class="form-full-width" cellspacing="0">
+									<tr>
+										<td>
+											<mat-form-field class="form-full-width">
+												<input matInput placeholder="Login"
+													formControlName="subjectLogin"
+													#subjectLogin maxlength="50">
+												<mat-hint align="end">{{subjectLogin.value.length}} / 50</mat-hint>
+											</mat-form-field>
+										</td>
+										<td>
+											<mat-form-field class="form-full-width">
+												<input matInput placeholder="Hasło"
+													formControlName="subjectPassword"
+													[type]="show ? 'text' : 'password'"
+													#subjectPassword maxlength="20">
+													<button mat-icon-button matSuffix type="button" [disabled]="isDisabled" (click)="show = !show">
+														<mat-icon>{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
+													</button>
+												<mat-hint align="end">{{subjectPassword.value.length}} / 20</mat-hint>
+											</mat-form-field>
+										</td>
+									</tr>
+								</table>
+								<mat-form-field class="form-full-width">
+									<input matInput placeholder="Katalog z Plikami"
+										formControlName="subjectDirectory"
+										#subjectDirectory maxlength="150">
+									<mat-hint align="end">{{subjectDirectory.value.length}} / 150</mat-hint>
+								</mat-form-field>
+								<mat-form-field>
+									<mat-select placeholder="Tryb" formControlName="subjectMode" name="subjectMode" required>
+										<mat-option *ngFor="let mode of subjectMode"
+											[value]="mode">
+											{{ mode }}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngIf="firstSubjectForm.get('subjectMode').invalid">{{getSubjectModeErrorMessage()}}</mat-error>
+								</mat-form-field>
+								<p>
+								<mat-form-field>
+									<mat-select placeholder="Protokół Wymiany" formControlName="subjectExchangeProtocol" name="subjectExchangeProtocol" required>
+										<mat-option *ngFor="let protocol of exchangeProtocol"
+											[value]="protocol">
+											{{ protocol }}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngIf="firstSubjectForm.get('subjectExchangeProtocol').invalid">{{getSubjectExchangeProtocolErrorMessage()}}</mat-error>
+								</mat-form-field>
+								</p>
+								<div *ngIf="firstSubjectForm.controls.subjectExchangeProtocol.value=='ssl'">
+									<mat-form-field class="form-full-width">
+										<input matInput placeholder="Login Form"
+											formControlName="subjectLoginForm"
+											#subjectLoginForm maxlength="120">
+										<mat-hint align="end">{{subjectLoginForm.value.length}} / 120</mat-hint>
+									</mat-form-field>
+									<mat-form-field class="form-full-width">
+										<input matInput placeholder="Logout Form"
+											formControlName="subjectLogoutForm"
+											#subjectLogoutForm maxlength="50">
+										<mat-hint align="end">{{subjectLogoutForm.value.length}} / 50</mat-hint>
+									</mat-form-field>
+								</div>
+								<div *ngIf="firstSubjectForm.controls.subjectExchangeProtocol.value=='ssl' && firstSubjectForm.controls.subjectMode.value=='upload'">
+									<mat-form-field class="form-full-width">
+										<input matInput placeholder="Opcje POST"
+											formControlName="subjectPostOptions"
+											#subjectPostOptions maxlength="50">
+										<mat-hint align="end">{{subjectPostOptions.value.length}} / 50</mat-hint>
+									</mat-form-field>
+									<mat-form-field class="form-full-width">
+										<input matInput placeholder="Odpowiedź Serwera"
+											formControlName="subjectResponseString"
+											#subjectResponseString maxlength="20">
+										<mat-hint align="end">{{subjectResponseString.value.length}} / 20</mat-hint>
+									</mat-form-field>
+								</div>
+								<div *ngIf="firstSubjectForm.controls.subjectExchangeProtocol.value=='sftp'">
+									<mat-form-field>
+										<mat-select placeholder="Klucz Prywatny" formControlName="subjectEncryptionKeyID" name="subjectEncryptionKeyID">
+											<mat-option>None</mat-option>
+											<mat-option *ngFor="let keyName of encryptionKeys$"
+												[value]="keyName.id">
+												{{ keyName.privateKeyName }}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+									<!-- <span matTooltip="Pobierz Klucz Prywatny">
+										<button mat-icon-button matPrefix type="button" (click)="uploadSubjectPrivateKey()">
+											<mat-icon>file_download</mat-icon>
+										</button>
+									</span>
+								 	<mat-form-field floatPlaceholder="always">
+										<input matInput placeholder="Klucz Prywatny Serwera"
+											formControlName="subjectPrivateKey">
+									</mat-form-field> -->								
+								</div>		
+							</div>
+							<div>
+								<button mat-button matStepperNext type="button">Następny</button>
+							</div>
+						</form>
+					</mat-step>
+							
+					<mat-step [stepControl]="secondSubjectForm">
+						<form [formGroup]="secondSubjectForm" class="form" novalidate>
+							<ng-template matStepLabel>SERVER</ng-template>
+							<span>Konfiguracja Serwera:</span>
+							<p>
+							<div id="page-padding">
+						 		<div formArrayName="servers" class="server-list-display-scroll">
+									<div *ngFor="let server of servers.controls; index as i">
+										<div [formGroupName]="i" class="add-content">
+											<button *ngIf="servers.controls.length > 1" matTooltip="Usuń serwer" color="accent" mat-icon-button [disabled] = "isDisabled" type="button" (click)="removeServer(i)">
+												<mat-icon>delete</mat-icon>
+											</button>
+										 	<div class="inner-add-content">
+												<mat-form-field class="form-full-width">
+													<input matInput placeholder="Adres serwera {{i+1}}"												
+														formControlName="serverAddress"
+														required
+														#serverAddress maxlength="20">
+													<mat-hint align="end">{{serverAddress.value.length}} / 20</mat-hint>
+													<mat-error *ngIf="server.invalid">{{getServerAddressErrorMessage(i)}}</mat-error>
+										  		</mat-form-field> 
+									 			<table class="form-full-width" cellspacing="0">
+													<tr>
+														<td>
+															<mat-form-field class="form-full-width">
+																<input matInput placeholder="Login"
+																	formControlName="serverLogin"
+																	#serverLogin maxlength="20">
+																	<mat-hint align="end">{{serverLogin.value.length}} / 20</mat-hint>
+																	<mat-hint align="start">domena/login</mat-hint>
+															</mat-form-field>
+														</td>
+														<td>
+															<mat-form-field class="form-full-width">
+																<input matInput placeholder="Hasło"
+																	[type]="show ? 'text' : 'password'"
+																	formControlName="serverPassword"
+																	#serverPassword maxlength="20">
+																	<button mat-icon-button matSuffix type="button" [disabled]="isDisabled" (click)="show = !show">
+																		<mat-icon>{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
+																	</button>
+																<mat-hint align="end">{{serverPassword.value.length}} / 20</mat-hint>
+															</mat-form-field>
+														</td>
+													</tr>
+												</table>
+												<mat-form-field class="form-full-width">
+													<input matInput placeholder="Zasób serwera"
+														formControlName="serverDirectory"
+														#serverDirectory maxlength="20">
+													<mat-hint align="end">{{serverDirectory.value.length}} / 20</mat-hint>
+												</mat-form-field>
+											</div>    
+										</div>
+						 			</div>
+								</div>
+								<button mat-button color="primary" (click)="addServer()" [disabled] = "isDisabled" type="button">DODAJ SERWER</button>
+							</div>
+							<div>
+								<button mat-button matStepperPrevious type="button">Poprzedni</button>
+								<button mat-button matStepperNext type="button">Następny</button>
+							</div>
+						</form>
+					</mat-step>
+						
+					<mat-step [stepControl]="thirdSubjectForm">
+						<form [formGroup]="thirdSubjectForm" class="form" novalidate>
+							<ng-template matStepLabel>Pliki</ng-template>
+							<span>Konfiguracja Pobierania Plików:</span>
+							<p>
+							<div id="page-padding">
+								<div formArrayName="fileList" class="display-scroll">
+									<div *ngFor="let file of fileList.controls; index as i" [formGroupName]="i">
+										<mat-form-field class="form-full-width">
+											<button *ngIf="fileList.controls.length > 1" matTooltip="Usuń plik" color="accent" mat-icon-button [disabled] = "isDisabled" type="button" matPrefix (click)="removeFile(i)">
+												<mat-icon>delete</mat-icon>&nbsp;
+											</button>
+											<input matInput placeholder="Plik {{i+1}}"
+												formControlName="fileName"
+												#fileName maxlength="50"
+												required>
+												<mat-error *ngIf="file.invalid">{{getFileErrorMessage(i)}}</mat-error>
+												<mat-hint align="start">
+													Przykład: *&lt;data&gt;*.zip. W pole &lt;data&gt; zostanie automatycznie wstawiona bieżąca data
+												</mat-hint>
+												<mat-hint align="end">{{fileName.value.length}} / 50</mat-hint>
+										</mat-form-field>
+									</div>
+								</div>
+								<button mat-button color="primary" (click)="addFile()" [disabled] = "isDisabled" type="button">DODAJ PLIK</button>
+								<p>
+								<mat-form-field>
+									<input matInput placeholder="Format Daty"
+										formControlName="dateFormat"
+										maxlength="8">
+										<mat-hint align="start">yyyyMMdd ddMMyyyy MMddyyyy</mat-hint>
+								</mat-form-field>
+								<table cellspacing="0">
+									<tr>
+										<td>
+											<mat-form-field>
+												<mat-select placeholder="Plik Źródłowy" formControlName="serverSourceFileMode" name="serverSourceFileMode">
+													<mat-option>None</mat-option>
+													<mat-option *ngFor="let fileMode of sourceFileMode"
+														[value]="fileMode">
+														{{ fileMode }}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</td>
+										<td>
+											<mat-checkbox class="checkbox-archive-margin" formControlName="fileArchive">Utwóż Archiwum Plików</mat-checkbox>
+										</td>
+									</tr>
+								</table>
+								<p>
+								<mat-form-field>
+									<mat-select placeholder="Metoda Dekompresji" formControlName="serverDecompressionMethod" name="serverDecompressionMethod">
+										<mat-option>None</mat-option>
+										<mat-option *ngFor="let decompression of decompressionMethod"
+											[value]="decompression">
+											{{ decompression }}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+								<p>
+								<mat-form-field>
+									<mat-select placeholder="Metoda Dekrypcji" formControlName="serverDecryptionMethod" name="serverDecryptionMethod">
+										<mat-option>None</mat-option>
+										<mat-option *ngFor="let decryption of decryptionMethod"
+											[value]="decryption">
+											{{ decryption }}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>						
+								<mat-form-field *ngIf="thirdSubjectForm.controls.serverDecryptionMethod.value=='pgp'">
+									<mat-select placeholder="Klucz Dekrypcji" formControlName="decryptionKeyID" name="decryptionKeyID" required>
+										<mat-option *ngFor="let keyName of decryptionKeys$"
+											[value]="keyName.id">
+											{{ keyName.decryptionKeyName }}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>							
+								<p>
+							</div>
+							<div>
+								<button mat-button matStepperPrevious type="button">Poprzedni</button>
+								<button mat-button matStepperNext type="button">Następny</button>
+							</div>
+						</form>
+					</mat-step>
+					
+					<mat-step [stepControl]="fourthSubjectForm">
+						<form [formGroup]="fourthSubjectForm" class="form" novalidate>
+						<ng-template matStepLabel>Harmonogram</ng-template>
+						<span>Ustawienie Harmonogramu:</span>
+						<p>
+						<div id="page-padding">
+							<p>
+								<span>Dni tygodnia:</span>
+							</p>
+							<section class="checkbox-section">
+								<mat-checkbox class="checkbox-margin" formControlName="checkedPN" name="checkedPN">PN</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedWT" name="checkedWT">WT</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedSR" name="checkedSR">SR</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedCZ" name="checkedCZ">CZ</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedPT" name="checkedPT">PT</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedSO" name="checkedSO">SO</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedND" name="checkedND">ND</mat-checkbox>
+							</section>
+							<p>
+								<span>Miesiące:</span>
+							</p>
+							<section class="checkbox-section">
+								<mat-checkbox class="checkbox-margin" formControlName="checkedSTY" name="checkedSTY">STY</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedLUT" name="checkedLUT">LUT</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedMAR" name="checkedMAR">MAR</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedKWI" name="checkedKWI">KWI</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedMAJ" name="checkedMAJ">MAJ</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedCZE" name="checkedCZE">CZE</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedLIP" name="checkedLIP">LIP</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedSIE" name="checkedSIE">SIE</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedWRZ" name="checkedWRZ">WRZ</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedPAZ" name="checkedPAZ">PAŹ</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedLIS" name="checkedLIS">LIS</mat-checkbox>
+								<mat-checkbox class="checkbox-margin" formControlName="checkedGRU" name="checkedGRU">GRU</mat-checkbox>
+							</section>
+							<p>
+							<mat-form-field>
+								<input matInput placeholder="Godzina"
+									formControlName="hours"
+									required>
+								<mat-hint align="start">
+									dozwolone: * 0-23 */0-23
+								</mat-hint>
+							</mat-form-field>
+							<mat-form-field>
+								<input matInput placeholder="Minuty"
+									formControlName="minutes"
+									required>
+								<mat-hint align="start">
+									dozwolone: * 0-59 */0-59
+								</mat-hint>
+							</mat-form-field>
+						</div>
+						<div>
+							<button mat-button matStepperPrevious type="button">Poprzedni</button>
+							<button mat-button matStepperNext type="button">Następny</button>
+						</div>
+						</form>
+					</mat-step>
+												
+					<mat-step  [stepControl]="fifthSubjectForm" [optional]="false">
+						<form [formGroup]="fifthSubjectForm" class="form" novalidate>
+							<ng-template matStepLabel>Powiadomienia</ng-template>
+							<span>Konfiguracja Powiadomień:</span>
+							<div id="page-padding">
+								<p>
+								<!-- <mat-form-field class="form-full-width">
+									<input matInput placeholder="Adres Serwera"
+										formControlName="mailServer">
+								</mat-form-field>-->
+								<mat-form-field class="form-full-width">
+									<input matInput placeholder="Tytuł Wiadomości"
+										formControlName="mailSubject"
+										#mailSubject maxlength="100"
+										required>
+									<mat-hint align="end">{{mailSubject.value.length}} / 100</mat-hint>
+									<mat-error *ngIf="fifthSubjectForm.get('mailSubject').invalid">{{getMailSubjectErrorMessage()}}</mat-error>
+								</mat-form-field>
+								<mat-form-field class="form-full-width">
+									<input matInput placeholder="Nadawca Wiadomości"
+										formControlName="mailFrom"
+										#mailFrom maxlength="50"
+										required>
+									<mat-hint align="end">{{mailFrom.value.length}} / 50</mat-hint>
+									<mat-error *ngIf="fifthSubjectForm.get('mailFrom').invalid">{{getMailFromErrorMessage()}}</mat-error>
+								</mat-form-field>
+								<div formArrayName="mailingList" class="display-scroll">
+									<div *ngFor="let recipient of mailingList.controls; index as i" [formGroupName]="i">
+										<mat-form-field class="form-full-width">
+											<button *ngIf="mailingList.controls.length > 1" matTooltip="Usuń odbiorcę" color="accent" mat-icon-button [disabled] = "isDisabled" type="button" matPrefix (click)="removeRecipient(i)">
+												<mat-icon>delete</mat-icon>&nbsp;
+											</button>
+											<input matInput placeholder="Odbiorca {{i+1}}"
+												formControlName="recipientName"
+												#recipientName maxlength="50"
+												required>
+											<mat-hint align="end">{{recipientName.value.length}} / 50</mat-hint>
+											<mat-error *ngIf="recipient.invalid">{{getRecipientNameErrorMessage(i)}}</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+								<button mat-button color="primary" (click)="addRecipient()" [disabled] = "isDisabled" type="button">DODAJ ODBIORCĘ</button>
+							</div>
+							<div>
+								<button mat-button matStepperPrevious type="button">Poprzedni</button>
+								<button mat-button matStepperNext type="button">Następny</button>
+							</div>
+						</form>
+					</mat-step>								
+					
+					<mat-step [stepControl]="lastSubjectForm">
+						<form [formGroup]="lastSubjectForm" (ngSubmit)="saveSubject()" class="form" novalidate>
+							<ng-template matStepLabel>Koniec</ng-template>
+							<span>Zadanie pobierania plików zostało poprawnie skonfigurowane!</span>
+							<div>
+								<button mat-button matStepperPrevious type="button">Poprzedni</button>
+								<button mat-button matStepperNext type="submit"
+									[disabled]="firstSubjectForm.pristine &&
+												secondSubjectForm.pristine &&
+												thirdSubjectForm.pristine &&
+												fourthSubjectForm.pristine &&
+												fifthSubjectForm.pristine">Zapisz
+								</button>
+							</div>
+						</form>
+					</mat-step>
+				</mat-horizontal-stepper>
+</ng-template>

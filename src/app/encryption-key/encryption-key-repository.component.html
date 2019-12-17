@@ -1,0 +1,52 @@
+<h1 mat-dialog-title>Repozytorium Kluczy Enkrypcji</h1>
+<mat-card>
+	<mat-card-content>	
+	<div class="display-tab">	
+		<mat-table #table [dataSource]="dataSource">
+			<ng-container matColumnDef="deleteSymbol">
+    			<mat-header-cell *matHeaderCellDef ></mat-header-cell>
+      			<mat-cell *matCellDef="let row">
+					<span matTooltip="Usuń klucze">
+						<button mat-icon-button color="accent" type="button" (click)="deleteEncryptionKeys(row.id)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</span>
+				</mat-cell>
+			</ng-container>
+		
+			<ng-container matColumnDef="privateKeyName">
+    			<mat-header-cell *matHeaderCellDef > Klucz Prywatny </mat-header-cell>
+      			<mat-cell *matCellDef="let row">
+      				<span matTooltip="Export/Import Klucza Prywatnego">
+   						<button mat-icon-button color="primary" type="button" (click)="exportImportPrivateKey(row.id, row.privateKeyName)">
+							<mat-icon>swap_vert</mat-icon>
+						</button>
+					</span>
+      				{{row.privateKeyName}}
+      			</mat-cell>
+			</ng-container>
+				
+			<ng-container matColumnDef="publicKeyName">
+    			<mat-header-cell *matHeaderCellDef > Klucz Publiczny </mat-header-cell>
+      			<mat-cell *matCellDef="let row">
+      				<span matTooltip="Export/Import Klucza Publicznego">
+   						<button mat-icon-button color="primary" type="button" (click)="exportImportPublicKey(row.id, row.publicKeyName)">
+							<mat-icon>swap_vert</mat-icon>
+						</button>
+					</span>
+					{{row.publicKeyName}}</mat-cell>
+			</ng-container>			
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+		</mat-table>
+	</div>
+	<span matTooltip="Dodaj Nowe Klucze">
+		<button mat-mini-fab color="primary" type="button" (click)="addEncryptionKeys()">
+			<mat-icon>add</mat-icon>
+		</button>
+	</span>
+	</mat-card-content>
+</mat-card>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close type="button">ZAMKNIJ</button>
+</div>

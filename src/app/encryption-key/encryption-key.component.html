@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Import/Export Klucza {{data.key === 'private-key' ? 'Prywatnego' : 'Publicznego'}}</h1>
+<mat-card>
+	<mat-card-content>
+		<table class="form-full-width" cellspacing="0">
+			<tr class="mat-row">
+				<td class="mat-cell">
+					<span>Import Klucza:</span>
+					<p></p>
+					<mat-form-field>
+    					<input matInput placeholder="Nazwa pliku" disabled = true value={{data.keyName}}>
+  					</mat-form-field>
+					<button mat-button color="primary" type="button" (click)="downloadKey()">Pobierz Klucz</button>
+					<p></p>
+				</td>
+			</tr>
+			<tr class="mat-row">
+				<td class="mat-cell">
+				<p></p>
+					<span>Export Nowego Klucza:</span>
+					<p></p>
+					<form [formGroup]="encryptionKeyForm" (ngSubmit)="uploadKey()" novalidate>
+						<mat-form-field>
+							<app-input-file formControlName="keyBinaryFile" placeholder="Nazwa Pliku" valuePlaceholder="Nie wybrano pliku"></app-input-file>
+							<mat-icon matSuffix matTooltip="Wybierz plik" color="primary">folder</mat-icon>
+							<mat-error *ngIf="encryptionKeyForm.get('keyBinaryFile').hasError('maxContentSize')">
+        						Wielkość pliku nie może przekroczyć {{encryptionKeyForm.get('keyBinaryFile')?.getError('maxContentSize').maxSize | byteFormat}}
+        						({{encryptionKeyForm.get('keyBinaryFile')?.getError('maxContentSize').actualSize | byteFormat}}).
+      						</mat-error>
+      						<mat-hint>Nazwy pliku max. 25 znaków.</mat-hint>
+						</mat-form-field>
+						<button mat-button color="primary" type="submit" [disabled]="encryptionKeyForm.pristine || encryptionKeyForm.invalid || progress.percentage !=0">Wyślij Klucz</button>
+						<p></p>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<div *ngIf ="!encryptionKeyForm.pristine && !encryptionKeyForm.invalid && progress.percentage !=0">
+			<mat-progress-bar mode="determinate" [value]="progress.percentage"></mat-progress-bar>
+			<span>{{progress.percentage != 100 ? progress.percentage + ' %' : 'Ukończono'}}</span>
+		</div>
+	</mat-card-content>
+</mat-card>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close type="button">ZAMKNIJ</button>
+</div>

@@ -1,0 +1,3 @@
+.mat-row:nth-last-child(1) {
+	border-bottom-style: none;
+}

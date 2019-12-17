@@ -1,0 +1,35 @@
+.display-event {
+	min-height: 205px;
+	max-height: 205px;
+	max-width: 900px;
+	overflow-y: auto;
+	border-color: rgba(0, 0, 0, 0.12);
+	border-width: 1px;
+	border-style: solid;
+}
+
+.white-space {
+	white-space: pre;
+	font-family: monospace, Consolas, Monaco;
+}
+
+.example-loading-shade {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 56px;
+	right: 0;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.display-scroll {
+	overflow-y: auto;
+	max-height: 210px;
+}
+
+.form-full-width {
+	width: 100%;
+}

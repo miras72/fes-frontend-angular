@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Logowanie</h1>
+<mat-card>
+	<form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+	<mat-card-content>
+		<mat-form-field class="form-full-width">
+			<input matInput placeholder="Użytkownik"
+				formControlName="username"
+				#username maxlength="50">
+			<mat-hint align="end">{{username.value.length}} / 50</mat-hint>
+		</mat-form-field>
+		<mat-form-field class="form-full-width">
+			<input matInput placeholder="Hasło"
+				formControlName="password"
+				[type]="show ? 'text' : 'password'"
+				#password maxlength="20">
+			<button mat-icon-button matSuffix type="button" (click)="show = !show">
+				<mat-icon>{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
+			</button>
+			<mat-hint align="end">{{password.value.length}} / 20</mat-hint>
+		</mat-form-field>
+	</mat-card-content>
+	<mat-card-actions>
+		<button mat-raised-button color="primary" type="submit" [disabled]="loginForm.pristine || loginForm.invalid" class="form-full-width">ZALOGUJ</button>
+	</mat-card-actions>
+	</form>
+</mat-card>

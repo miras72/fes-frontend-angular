@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Dodanie Nowego Klucza Dekrypcji</h1>
+<form [formGroup]="decryptionKeyForm" (ngSubmit)="addKey()" novalidate>
+<mat-card>
+	<mat-card-content>
+		<table cellspacing="0">
+			<tr class="mat-row">
+					<td class="mat-cell">
+						<span>Klucz Dekrypcji:</span>
+						<p></p>
+						<mat-form-field>
+							<app-input-file formControlName="decryptionKeyBinaryFile" placeholder="Nazwa Pliku" valuePlaceholder="Nie wybrano pliku"></app-input-file>
+							<mat-icon matSuffix matTooltip="Wybierz plik" color="primary">folder</mat-icon>
+							<mat-error *ngIf="decryptionKeyForm.get('decryptionKeyBinaryFile').hasError('maxContentSize')">
+        						Wielkość pliku nie może przekroczyć {{decryptionKeyForm.get('decryptionKeyBinaryFile')?.getError('maxContentSize').maxSize | byteFormat}}
+        						({{decryptionKeyForm.get('decryptionKeyBinaryFile')?.getError('maxContentSize').actualSize | byteFormat}}).
+      						</mat-error>
+      						<mat-hint>Nazwy pliku max. 25 znaków.</mat-hint>
+						</mat-form-field>
+					</td>			
+			</tr>
+		</table>
+		<div *ngIf ="!decryptionKeyForm.pristine && !decryptionKeyForm.invalid && progress.percentage !=0">
+			<p></p>
+			<mat-progress-bar mode="determinate" [value]="progress.percentage"></mat-progress-bar>
+			<span>{{progress.percentage != 100 ? progress.percentage + ' %' : 'Ukończono'}}</span>
+		</div>
+	</mat-card-content>
+</mat-card>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close type="button">ZAMKNIJ</button>
+	<button mat-button color="primary" type="submit" [disabled]="decryptionKeyForm.pristine || decryptionKeyForm.invalid || progress.percentage !=0">Wyślij Klucz</button>
+</div>
+</form>

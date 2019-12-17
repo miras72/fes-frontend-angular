@@ -1,0 +1,109 @@
+<span matTooltip="Nowe zadanie" matTooltipPosition="left">
+	<button mat-mini-fab color="accent" (click)="addSubjectOpenDialog()">
+		<mat-icon>add</mat-icon>
+	</button>
+</span>
+
+<div class="example-container mat-elevation-z8">
+	<div class="example-loading-shade" *ngIf="dataSource.isLoadingResults">
+		<mat-spinner *ngIf="dataSource.isLoadingResults"></mat-spinner>
+	</div>
+	<mat-table #table [dataSource]="dataSource">
+
+		<!-- DeleteSymbol Column -->
+		<ng-container matColumnDef="deleteSymbol">
+    		<mat-header-cell *matHeaderCellDef ></mat-header-cell>
+      		<mat-cell *matCellDef="let row">
+				<span matTooltip="Usuń zadanie">
+					<button mat-icon-button color="accent" (click)="deleteTask(row.taskConfig.id, row.taskConfig.subjectName)">
+						<mat-icon>delete</mat-icon>
+					</button>
+				</span>
+			</mat-cell>
+		</ng-container>
+		
+		<!-- ID Column -->
+		<!-- <ng-container matColumnDef="id">
+    		<mat-header-cell *matHeaderCellDef > ID </mat-header-cell>
+      		<mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+		</ng-container> -->
+		
+		<!-- Name Column -->
+		<ng-container matColumnDef="subjectName">
+    		<mat-header-cell *matHeaderCellDef > Nazwa Podmiotu </mat-header-cell>
+      		<mat-cell *matCellDef="let row">
+      			<span matTooltip="Podgląd/Edycja Ustawień">
+   					<button mat-icon-button color="primary" (click)="displayTask(row.taskConfig.id, row.taskConfig.subjectName)">
+						<mat-icon>settings</mat-icon>
+					</button>
+				</span>
+				{{row.taskConfig.subjectName}}
+      		</mat-cell>
+		</ng-container>
+		
+		<!-- Subject Mode -->
+		<ng-container matColumnDef="subjectMode">
+    		<mat-header-cell *matHeaderCellDef > Tryb Wymiany Plików </mat-header-cell>
+      		<mat-cell *matCellDef="let row">
+      			<span matTooltip="Pobierz lub wyślij pliki ręcznie">
+   					<button mat-icon-button color="primary" (click)="manualDownloadUpload(row.taskConfig.id, row.taskConfig.subjectName, row.taskConfig.subjectMode)">
+						<mat-icon>swap_vert</mat-icon>
+					</button>
+				</span>
+				{{row.taskConfig.subjectMode}}
+      		</mat-cell>
+		</ng-container>
+		
+		<!-- Last Status Column -->
+		<ng-container matColumnDef="subjectLastStatus">
+    		<mat-header-cell *matHeaderCellDef >Status Wymiany Plików </mat-header-cell>
+      		<mat-cell *matCellDef="let row" [style.color]="row.lastStatus=='Error' ? 'red' : null">    			
+				<span matTooltip="Podgląd zdarzeń">
+					<button mat-icon-button color="primary" (click)="displayEvent(row.taskConfig.id, row.taskConfig.subjectName)">
+						<mat-icon>info_outline</mat-icon>
+					</button>
+				</span>
+				{{row.lastStatus}}
+      		</mat-cell>
+		</ng-container>		
+		
+		<!-- Data Status Column -->
+		<ng-container matColumnDef="subjectLastDataStatus">
+    		<mat-header-cell *matHeaderCellDef > Data Ostatniego Statusu </mat-header-cell>
+      		<mat-cell *matCellDef="let row"> {{row.lastDataStatus}} </mat-cell>
+		</ng-container>			
+		
+		<!-- Schedule Interval Column -->
+		<ng-container matColumnDef="subjectScheduledInterval">
+    		<mat-header-cell *matHeaderCellDef > Harmonogram Wywołania </mat-header-cell>
+      		<mat-cell *matCellDef="let row">
+      			<div *ngIf="row.scheduledInterval.length > 18; else elseBlock">
+      				<span matTooltip={{row.scheduledInterval}}>{{row.scheduledInterval | slice:0:22}} ...</span>
+      			</div>
+      			<ng-template #elseBlock>
+      				{{row.scheduledInterval}}
+      			</ng-template>
+      		</mat-cell>
+		</ng-container>		
+		
+		<!-- Next Schedule Data Column -->
+		<ng-container matColumnDef="subjectNextScheduledDate">
+    		<mat-header-cell *matHeaderCellDef > Kolejne Wywołanie </mat-header-cell>
+      		<mat-cell *matCellDef="let row"> {{row.nextScheduledDate}} </mat-cell>
+		</ng-container>		
+
+		<!-- Scheduled Is Active Column -->
+		<ng-container matColumnDef="subjectScheduledIsActive">
+    		<mat-header-cell *matHeaderCellDef > Harmonogram Aktywny </mat-header-cell>
+      		<mat-cell *matCellDef="let row">
+      			<mat-checkbox
+          			class="schedule-margin"
+          			[checked]="row.taskConfig.scheduledIsActive ? true : false"
+          			(change)="taskScheduledEventChange($event, row.taskConfig.id)">
+      			</mat-checkbox>
+      		</mat-cell>
+		</ng-container>
+    	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    	<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+	</mat-table>
+</div>

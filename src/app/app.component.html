@@ -1,0 +1,57 @@
+<mat-toolbar color="primary">
+	<span>{{title}}</span>
+	<span class="example-spacer"></span>
+	<span *ngIf="auth.isAuthenticated()  ; else elseUserMenu" matTooltip={{auth.getUser()}}>
+		<button mat-icon-button [matMenuTriggerFor]="menu">
+			<mat-icon>person</mat-icon>
+		</button>
+	</span>
+	<ng-template #elseUserMenu>
+		<button mat-icon-button [matMenuTriggerFor]="menu">
+			<mat-icon>more_vert</mat-icon>
+		</button>
+	</ng-template>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+	<button mat-menu-item (click)="serverOpenDialog()">
+		<mat-icon>settings</mat-icon>
+		<span>Ustawienia Serwera</span>
+	</button>
+	<button mat-menu-item (click)="encryptionKeyRepositoryOpenDialog()">
+		<mat-icon>vpn_key</mat-icon>
+		<span>Klucze Enkrypcji</span>
+	</button>
+	<button mat-menu-item (click)="decryptionKeyRepositoryOpenDialog()">
+		<mat-icon>vpn_key</mat-icon>
+		<span>Klucze Dekrypcji</span>
+	</button>
+	<button *ngIf="!auth.isAuthenticated() ; else elseLogout" mat-menu-item (click)="login()">
+		<mat-icon>fingerprint</mat-icon>
+		<span>Login</span>
+	</button>
+	<ng-template #elseLogout>
+		<button mat-menu-item (click)="logout()">
+			<mat-icon>exit_to_app</mat-icon>
+			<span>Logout</span>
+		</button>
+	</ng-template>
+</mat-menu>
+
+<router-outlet>
+</router-outlet>
+
+<footer>
+	<div class="docs-footer">
+		<div class="docs-footer-list">
+			<div class="footer-logo">
+				<img alt="logo" class="docs-footer-logo" src="../assets/image/logo.svg">
+			</div>
+			<div class="docs-footer-copyright">
+				<p>
+					&copy; 2018-2019. Mirosław Tyc.
+				</p>
+			</div>
+		</div>
+	</div>
+</footer>

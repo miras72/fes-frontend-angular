@@ -1,0 +1,27 @@
+<div *ngIf="serverConfig$">
+	<h1 mat-dialog-title>Konfiguracja Serwera</h1>
+	<form [formGroup]="serverConfigForm" (ngSubmit)="saveServerConfig()" class="form" novalidate>
+		<mat-card>
+			<mat-card-content>
+				<mat-form-field class="form-full-width">
+					<input matInput placeholder="Katalog Roboczy"
+						formControlName="workDirectory"
+						#workDirectory maxlength="50"
+						required>
+					<mat-hint align="end">{{workDirectory.value.length}} / 50</mat-hint>
+				</mat-form-field>
+				<mat-form-field class="form-full-width">
+					<input matInput placeholder="Katalog Archiwum"
+						formControlName="archDirectory"
+						#archDirectory maxlength="50"
+						required>
+					<mat-hint align="end">{{archDirectory.value.length}} / 50</mat-hint>
+				</mat-form-field>
+			</mat-card-content>
+		</mat-card>
+		<div mat-dialog-actions>
+			<button mat-button mat-dialog-close type="button">ZAMKNIJ</button>
+			<button mat-button type="submit" [disabled]="serverConfigForm.pristine || serverConfigForm.invalid">ZAPISZ</button>
+		</div>
+	</form>
+</div>

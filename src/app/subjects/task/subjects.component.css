@@ -1,0 +1,53 @@
+.example-form {
+  min-width: 150px;
+  width: 100%;
+}
+
+.form-full-width {
+  width: 100%;
+}
+
+.next-card {
+  max-width: 1000px;
+}
+
+#page-padding {
+    overflow-y: auto;
+    margin: 0 10px;
+}
+
+.display-scroll {
+	overflow-y: auto;
+    max-height: 210px;
+}
+
+.server-list-display-scroll {
+	overflow-y: auto;
+    max-height: 350px;
+}
+
+.inner-add-content {
+  width: 100%;
+  background-color: #F0F0F0;
+  padding: 10px 10px 10px 10px;
+}
+
+.add-content {
+	margin: 8px;
+	line-height: 32px;
+	flex: 1;
+	display: flex;
+	align-items: center;
+}
+
+.checkbox-margin {
+	 margin: 0 5px;
+}
+
+.checkbox-section {
+  padding-left: 10px;
+}
+
+.checkbox-archive-margin {
+	 margin: 0 15px;
+}

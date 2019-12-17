@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Dodanie Nowych Kluczy Enkrypcji</h1>
+<form [formGroup]="encryptionKeyForm" (ngSubmit)="addKey()" novalidate>
+<mat-card>
+	<mat-card-content>
+		<table cellspacing="0">
+			<tr class="mat-row">
+					<td class="mat-cell">
+						<span>Klucz Prywatny:</span>
+						<p></p>
+						<mat-form-field>
+							<app-input-file formControlName="privateKeyBinaryFile" placeholder="Nazwa Pliku" valuePlaceholder="Nie wybrano pliku"></app-input-file>
+							<mat-icon matSuffix matTooltip="Wybierz plik" color="primary">folder</mat-icon>
+							<mat-error *ngIf="encryptionKeyForm.get('privateKeyBinaryFile').hasError('maxContentSize')">
+        						Wielkość pliku nie może przekroczyć {{encryptionKeyForm.get('privateKeyBinaryFile')?.getError('maxContentSize').maxSize | byteFormat}}
+        						({{encryptionKeyForm.get('privateKeyBinaryFile')?.getError('maxContentSize').actualSize | byteFormat}}).
+      						</mat-error>
+      						<mat-hint>Nazwy pliku max. 25 znaków.</mat-hint>
+						</mat-form-field>
+					</td>
+					<td class="mat-cell">
+						<span>Klucz Publiczny:</span>
+						<p></p>
+						<mat-form-field>
+							<app-input-file formControlName="publicKeyBinaryFile" placeholder="Nazwa Pliku" valuePlaceholder="Nie wybrano pliku"></app-input-file>
+							<mat-icon matSuffix matTooltip="Wybierz plik" color="primary">folder</mat-icon>
+							<mat-error *ngIf="encryptionKeyForm.get('publicKeyBinaryFile').hasError('maxContentSize')">
+        						Wielkość pliku nie może przekroczyć {{encryptionKeyForm.get('publicKeyBinaryFile')?.getError('maxContentSize').maxSize | byteFormat}}
+        						({{encryptionKeyForm.get('publicKeyBinaryFile')?.getError('maxContentSize').actualSize | byteFormat}}).
+      						</mat-error>
+      						<mat-hint>Nazwy pliku max. 25 znaków.</mat-hint>
+						</mat-form-field>
+					</td>			
+			</tr>
+		</table>
+		<div *ngIf ="!encryptionKeyForm.pristine && !encryptionKeyForm.invalid && progress.percentage !=0">
+			<p></p>
+			<mat-progress-bar mode="determinate" [value]="progress.percentage"></mat-progress-bar>
+			<span>{{progress.percentage != 100 ? progress.percentage + ' %' : 'Ukończono'}}</span>
+		</div>
+	</mat-card-content>
+</mat-card>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close type="button">ZAMKNIJ</button>
+	<button mat-button color="primary" type="submit" [disabled]="encryptionKeyForm.pristine || encryptionKeyForm.invalid || progress.percentage !=0">Wyślij Klucze</button>
+</div>
+</form>

@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Podgląd Zdarzeń - Podmiot {{data.subjectName}}</h1>
+<mat-card>
+	<mat-card-content>
+		<mat-form-field>
+  			<input matInput  #resultPickerModel="ngModel" [(ngModel)]="planModel.start_date" [matDatepicker]="picker" placeholder="Wybierz datę" required tabindex="-1"
+  			(dateChange)="addEvent($event)" disabled>
+  			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  			<mat-datepicker #picker disabled="false"></mat-datepicker>
+  			<!-- <mat-error *ngIf="resultPickerModel.hasError('matDatepickerParse')">Podaj prawidłową datę</mat-error> -->
+			</mat-form-field>
+		<p>
+		<span>Podgląd Zdarzeń</span>
+		</p>
+		<div class="display-event" #scrollBottom>
+			<div *ngFor="let event of fileExchangeStatus$" class="white-space"
+				[ngStyle]="{'color': event.eventText.indexOf('FATAL') !== -1 || event.eventText.indexOf('ERROR') !== -1 ? 'red' : 'inherit'}">{{event.eventText}}</div>
+		</div>
+		<mat-checkbox *ngIf="eventDate == todayDate" [(ngModel)]="isLiveEvent" (change)="liveEventChange($event)">Podgląd na żywo</mat-checkbox>
+	</mat-card-content>
+</mat-card>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>ZAMKNIJ</button>
+</div>

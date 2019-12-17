@@ -1,0 +1,54 @@
+<div *ngIf="taskConfig$; else loading">
+	<h1 mat-dialog-title>Ręczna Wymiana Plików - Podmiot {{taskConfig$.subjectName}}</h1>
+	<mat-card>
+		<form [formGroup]="manualFileForm" (ngSubmit)="runManualFileExchange()" class="form" novalidate>
+			<mat-card-content>
+				<mat-card-subtitle>Tryb Wymiany Plików: {{taskConfig$.subjectMode}}</mat-card-subtitle>
+				<p>
+				<span>Lista plików:</span>
+				<div formArrayName="fileList" class="display-scroll" #scrollBottomFileList>
+					<div *ngFor="let file of fileList.controls; index as i" [formGroupName]="i">
+						<mat-form-field class="form-full-width">
+							<button *ngIf="fileList.controls.length > 1" matTooltip="Usuń plik" color="accent" mat-icon-button [disabled] = "isRun" type="button" matPrefix (click)="removeFile(i)">
+								<mat-icon>delete</mat-icon>&nbsp;
+							</button>
+							<input matInput placeholder="Plik {{i+1}}"
+								formControlName="fileName"
+								required>
+							<mat-error *ngIf="file.invalid">{{getFileErrorMessage(i)}}</mat-error>
+							<mat-hint align="start">Przykład: *&lt;data&gt;*.zip. W pole &lt;data&gt; zostanie automatycznie wstawiona wybrana data</mat-hint>
+						</mat-form-field>
+					</div>
+				</div>
+				<button mat-button color="primary" (click)="addFile()" type="button" [disabled] = "isRun">DODAJ PLIK</button>
+				<p>
+				<mat-form-field>
+  					<input matInput  formControlName="dateFile" [matDatepicker]="picker" placeholder="Wybierz datę plików" required>
+  					<mat-datepicker-toggle matSuffix [for]="picker" [disabled]="isRun"></mat-datepicker-toggle>
+  					<mat-datepicker #picker disabled="false"></mat-datepicker>
+  					<!-- <mat-error *ngIf="resultPickerModel.hasError('matDatepickerParse')">Podaj prawidłową datę</mat-error> -->
+				</mat-form-field>
+				<p>
+				<span>Podgląd Zdarzeń</span>
+				</p>
+				<div class="display-event" #scrollBottom>
+					<div *ngFor="let event of fileExchangeStatus$" class="white-space"
+						[ngStyle]="{'color': event.eventText.indexOf('FATAL') !== -1 || event.eventText.indexOf('ERROR') !== -1 ? 'red' : 'inherit'}">{{event.eventText}}</div>
+				</div>
+				<mat-checkbox formControlName="autoScroll">Automatyczne przewijanie zdarzeń</mat-checkbox>
+			</mat-card-content>
+			<mat-card-actions>
+	    		<button mat-raised-button color="primary" type="submit" [disabled] = "isRun">URUCHOM</button>
+	    		<button mat-raised-button color="accent" type="button" [disabled] = "!isRun" (click)="stopnManualFileExchange()">PRZERWIJ</button>
+  			</mat-card-actions>
+  		</form>
+	</mat-card>
+	<div mat-dialog-actions>
+  		<button mat-button mat-dialog-close>ZAMKNIJ</button>
+	</div>
+</div>
+<ng-template #loading>
+	<div class="example-loading-shade">
+		<mat-spinner></mat-spinner>
+	</div>
+</ng-template>

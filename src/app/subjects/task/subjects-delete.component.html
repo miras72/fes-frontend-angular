@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Usuń Zadanie - Podmiot {{data.subjectName}}</h1>
+<mat-dialog-content>Czy na pewno usunąć zadanie?</mat-dialog-content>
+<div mat-dialog-actions>
+	<button mat-button [mat-dialog-close]="true" tabindex="1">TAK</button>
+	<button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>NIE</button>
+</div>
