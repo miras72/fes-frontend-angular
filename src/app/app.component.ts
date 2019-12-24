@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 
 import { MatDialog } from '@angular/material';
 
@@ -17,11 +17,17 @@ import { Roles } from './auth/roles.enum';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'Serwis Wymiany Plików';
 
   constructor(public dialog: MatDialog,
-          public auth: AuthenticationService) {}
+          public auth: AuthenticationService,
+          private renderer:Renderer2) {}
+
+  ngAfterViewInit() {
+    let loader = this.renderer.selectRootElement('.spinner');
+    loader.style.display = 'none'; //hide loader
+  }
 
   serverOpenDialog() {
           this.dialog.open(ServerComponent, {

@@ -4,10 +4,6 @@ md-toolbar-row {
   justify-content: space-between;
 }
 
-.spinner {
-	display: none;
-}
-
 .custom-dialog .mat-dialog-container {
     background: #fafafa;
     color: rgba(0,0,0,.87);
