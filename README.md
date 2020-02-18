@@ -1,6 +1,6 @@
 # Files Exchange Service - Frontend
 
-Angular 2+ version of Files Exchange Service
+Angular 9 version of Files Exchange Service
 
 ## Development server
 
