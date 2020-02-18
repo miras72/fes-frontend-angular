@@ -2,8 +2,8 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 
 import { HttpErrorResponse } from '@angular/common/http';
 
-import {MatDialogRef} from '@angular/material';
-import { MatSnackBar } from '@angular/material';
+import {MatDialogRef} from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable } from 'rxjs/Observable';
 

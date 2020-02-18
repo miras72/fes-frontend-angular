@@ -13,7 +13,7 @@ import { InMemoryDataService } from './subjects/shared/in-memory-data.service';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatDialog, MAT_DATE_LOCALE } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 

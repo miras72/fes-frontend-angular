@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ServerComponent } from './server/server.component';
 import { EncryptionKeyRepositoryComponent } from './encryption-key/encryption-key-repository.component';

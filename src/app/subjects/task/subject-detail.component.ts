@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject} from '@angular/core';
 
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { TaskConfig } from '../shared/task-config.model';
 import { TaskConfigService } from '../shared/task-config.service';

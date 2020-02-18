@@ -24,8 +24,8 @@ import { FileExchangeStatusService } from '../shared/file-exchange-status.servic
 import { AuthenticationService } from '../../auth/authentication.service';
 import { Roles } from '../../auth/roles.enum';
 
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { MatSnackBar } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-manual-file-exchange',

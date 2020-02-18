@@ -13,7 +13,7 @@ import 'rxjs/add/operator/takeWhile';
 import { FileExchangeStatusService } from '../shared/file-exchange-status.service';
 import { FileExchangeStatus } from '../shared/file-exchange-status.model';
 import { Event } from '../shared/file-exchange-status.model';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({

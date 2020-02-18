@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams   } from '@angular/common/http';
 import { Observable } from 'rxjs/RX';
 
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 //import { StatusMessage } from '../subjects/shared/status-message.model';
 import { User } from './user.model';

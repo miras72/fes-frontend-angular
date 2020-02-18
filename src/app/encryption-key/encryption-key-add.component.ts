@@ -4,7 +4,7 @@ import { HttpResponse, HttpErrorResponse, HttpEventType } from '@angular/common/
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { FileValidators } from '../input-file/file-validators';
 

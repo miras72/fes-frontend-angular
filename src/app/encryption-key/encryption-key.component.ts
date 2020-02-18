@@ -4,9 +4,9 @@ import { HttpResponse, HttpErrorResponse, HttpEventType } from '@angular/common/
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { MatSnackBar } from '@angular/material';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { MatDialogRef } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { EncryptionKeyService } from './encryption-key.service';
 import { StatusMessage } from '../subjects//shared/status-message.model';

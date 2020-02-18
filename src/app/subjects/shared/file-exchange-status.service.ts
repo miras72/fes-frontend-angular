@@ -5,7 +5,7 @@ import { HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { FileExchangeStatus } from '../shared/file-exchange-status.model';
 
