@@ -37,7 +37,7 @@
     "npm": "^6.13.7",
     "rxjs": "^6.5.4",
     "rxjs-compat": "^6.5.4",
-    "serialize-javascript": "^3.0.0",
+    "serialize-javascript": "^3.1.0",
     "web-animations-js": "^2.3.1",
     "webpack-dev-server": "^3.10.1",
     "ws": "^7.2.1",
